@@ -119,7 +119,7 @@ const LoginPage = () => {
                         <div className="animate-in slide-in-from-bottom-2 duration-500 pt-2" style={{ animationDelay: '700ms' }}>
                             <Button
                                 type="submit"
-                                className={`w-full border border-[#084F61] transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] ${
+                                className={`w-full border border-[#084F61] bg-[#1786A2] hover:bg-[#1786A2] cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] ${
                                     isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
                                 }`}
                                 disabled={isSubmitting}
