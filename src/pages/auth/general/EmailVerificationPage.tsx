@@ -68,7 +68,7 @@ const EmailVerificationPage = () => {
     return () => {
       mounted = false;
     };
-  }, [token, navigate]);
+  }, [token, navigate, verificationStatus]);
 
   if (loading) {
     return <EmailVerificationSkeleton />;
