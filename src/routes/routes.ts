@@ -39,10 +39,20 @@ export const authRoutes: RouteConfig[] = [
     component: lazy(() => import("@/pages/auth/organization/OrganizationVerifyEmailPage")),
     title: "Verify Email",
   },
-   {
+  {
    path: 'reset-password/:uidb64/:token',
     component: lazy(() => import("@/pages/auth/forgot-password/ResetPasswordPage")),
     title: "Reset Password",
+  },
+  {
+   path: 'forgot-password',
+    component: lazy(() => import("@/pages/auth/forgot-password/ForgotPasswordPage")),
+    title: "Forgot Password",
+  },
+  {
+   path: 'password-link-sent',
+    component: lazy(() => import("@/pages/auth/forgot-password/ForgotPasswordEmailSentPage")),
+    title: "Forgot Password Link Sent",
   },
 //   {
 //     path: "forgot-password",
