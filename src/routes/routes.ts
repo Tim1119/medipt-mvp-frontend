@@ -34,6 +34,11 @@ export const authRoutes: RouteConfig[] = [
     component: lazy(() => import("@/pages/auth/organization/OrganizationSignupPage")),
     title: "Sign Up",
   },
+  {
+    path: "verify-email",
+    component: lazy(() => import("@/pages/auth/organization/OrganizationVerifyEmailPage")),
+    title: "Verify Email",
+  },
 //   {
 //     path: "forgot-password",
 //     component: lazy(() => import("@/pages/auth/general/ForgotPasswordPage")),

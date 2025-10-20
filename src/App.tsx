@@ -24,6 +24,8 @@ import { authRoutes, dashboardRoutes } from "@/routes/routes";
 // Hooks
 import useRouteProgress from "@/hooks/useRouteProgress";
 import PageNotFound from "./pages/error/PageNotFound";
+import SignupRoute from "./routes/SignUpRoute";
+import OrganizationVerifyEmailPage from "./pages/auth/organization/OrganizationVerifyEmailPage";
 
 // Redux
 // import { restoreAuth } from "@/features/auth/authSlice";
@@ -71,13 +73,43 @@ function App() {
                   key={path}
                   path={path}
                   element={
-                    <PageTransition>
-                      <Component />
+                    <PageTransition>                    
+                        <Component />
                     </PageTransition>
                   }
                 />
               ))}
             </Route>
+
+
+            <Route
+              path="/organization/verify-email"
+              element={
+                <PublicRoute>
+                  <SignupRoute>
+                  <AuthLayout />
+                  </SignupRoute>
+                </PublicRoute>
+              }
+            >
+              {/* {authRoutes.map(({ path, component: Component}) => ( */}
+                <Route
+                 
+                  path={"/organization/verify-email/"}
+                  element={
+                    <PageTransition>
+                      <OrganizationVerifyEmailPage />
+                    </PageTransition>
+                  }
+                />
+              {/* ))} */}
+            </Route>
+
+            
+
+          
+
+            
 
             {/* Protected Dashboard Routes with RBAC */}
             <Route
@@ -102,6 +134,8 @@ function App() {
                 />
               ))}
             </Route>
+
+             
 
             {/* Unauthorized page */}
             <Route 
