@@ -29,11 +29,11 @@ export const authRoutes: RouteConfig[] = [
     component: lazy(() => import("@/pages/auth/general/LoginPage")),
     title: "Login",
   },
-//   {
-//     path: "signup",
-//     component: lazy(() => import("@/pages/auth/general/SignupPage")),
-//     title: "Sign Up",
-//   },
+  {
+    path: "signup",
+    component: lazy(() => import("@/pages/auth/organization/OrganizationSignupPage")),
+    title: "Sign Up",
+  },
 //   {
 //     path: "forgot-password",
 //     component: lazy(() => import("@/pages/auth/general/ForgotPasswordPage")),

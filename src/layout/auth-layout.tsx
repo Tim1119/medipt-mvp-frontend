@@ -6,7 +6,7 @@ const AuthLayout = () => {
     <div className="grid grid-cols-7 w-full min-h-screen bg-[#F2FBFF] font-inter">
       {/* Left Sidebar Image (Hidden on mobile/tablet) */}
       <div className="hidden xl:flex items-center justify-center col-span-3">
-        <div className="w-full h-full flex items-center justify-center p-8">
+        <div className="w-full h-full flex items-center justify-center">
           <img
             src={authIllustrationImage}
             alt="Authentication Illustration"
@@ -17,8 +17,9 @@ const AuthLayout = () => {
       </div>
 
       {/* Right Content Area */}
-      <div className="col-span-7 xl:col-span-3 flex items-center justify-center px-4 py-8 h-[90%] xl:items-start  xl:h-[85%] 2xl:h-[70%] my-auto justify-items-center xl:justify-self-auto">
-        <div className="w-full ">
+      {/* <div className="col-span-7 xl:col-span-3 flex items-center justify-center px-4 py-8 h-[90%] xl:items-start  xl:h-[85%] 2xl:h-[70%] my-auto justify-items-center xl:justify-self-auto bg-green-400"> */}
+      <div className="col-span-7 xl:col-span-3 flex items-center justify-center  h-[90%] xl:items-start  xl:h-[85%] 2xl:h-[70%] my-auto justify-items-center xl:justify-self-auto">
+        <div className="w-full h-full">
           <Outlet />
         </div>
       </div>

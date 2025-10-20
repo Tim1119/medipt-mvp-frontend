@@ -1,10 +1,6 @@
-// src/utils/errorHandler.ts
 import toast from "react-hot-toast";
 
-/**
- * Handles API errors and displays appropriate toast messages.
- * @param error - The error object from the API response.
- */
+
 export const handleApiError = (error: unknown): void => {
   const defaultErrorMessage = "An unexpected error occurred. Please try again.";
 
