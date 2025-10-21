@@ -34,6 +34,7 @@ const EmailVerificationPage = () => {
         // setTimeout(() => {
         //   if (mounted) navigate('/auth/login');
         // }, 2000);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         if (!mounted) return;
 
