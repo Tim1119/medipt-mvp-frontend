@@ -6,11 +6,12 @@
  */
 
 // Base API URL
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+// export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1/';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api/v1';
 
 // Authentication Endpoints
-export const ORGANIZATION_SIGNUP_ENDPOINT = '/auth/organization/signup';
-export const LOGIN_ENDPOINT = '/auth/login';
+export const ORGANIZATION_SIGNUP_ENDPOINT = '/auth/accounts/organization-signup/';
+export const LOGIN_ENDPOINT = '/auth/accounts/login/';
 export const LOGOUT_ENDPOINT = '/auth/logout';
 export const VERIFY_ACCOUNT_ENDPOINT = '/auth/verify/';
 export const FORGOT_PASSWORD_ENDPOINT = '/auth/forgot-password';

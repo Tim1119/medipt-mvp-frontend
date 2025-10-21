@@ -101,7 +101,7 @@ export const organizationSignup = createAsyncThunk<
 >("auth/signup-organization", async (organizationData, thunkAPI) => {
   try {
     const response = await authService.organizationSignupService(organizationData);
-    return response.data.data;
+    return response.data.data.data;
   } catch (error) {
     handleApiError(error);
     return thunkAPI.rejectWithValue("Signup failed");
@@ -135,13 +135,19 @@ export const login = createAsyncThunk<
 >("auth/login", async (loginData, { rejectWithValue }) => {
   try {
     const response = await authService.loginService(loginData);
-    const { access_token, refresh_token, user } = response.data.data;
+  
+    const { access, refresh, user } = response.data.data;
 
-    localStorage.setItem("accessToken", access_token);
-    localStorage.setItem("refreshToken", refresh_token);
+    localStorage.setItem("accessToken", access);
+    localStorage.setItem("refreshToken", refresh);
     localStorage.setItem("user", JSON.stringify(user));
 
-    return { user, access_token, refresh_token };
+    // Return with normalized field names for Redux state
+    return { 
+      user, 
+      access_token: access,    
+      refresh_token: refresh   
+    };
   } catch (error) {
     handleApiError(error);
     return rejectWithValue("Login failed");

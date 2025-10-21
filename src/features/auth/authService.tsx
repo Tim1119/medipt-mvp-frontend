@@ -16,9 +16,7 @@ import type {
     SetNewPasswordData,
 } from "@/schemas/auth/auth-schema";
 
-/**
- * Organization Signup Service
- */
+
 export const organizationSignupService = async (organizationData: OrganizationSignupData) => {
   const response = await publicAxiosInstance.post(ORGANIZATION_SIGNUP_ENDPOINT, organizationData);
   return response;
@@ -37,6 +35,7 @@ export const verifyAccountService = async (token: string) => {
  */
 export const loginService = async (loginData: LoginData) => {
   const response = await publicAxiosInstance.post(LOGIN_ENDPOINT, loginData);
+  console.log('------>',response)
   return response;
 };
 

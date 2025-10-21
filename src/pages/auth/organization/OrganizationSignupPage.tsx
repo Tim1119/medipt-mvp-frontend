@@ -45,7 +45,7 @@ const OrganizationSignupPage = () => {
 
             toast.success('Signup successful! Please check your email to verify your account.');
             reset();
-            navigate('/auth/organization/verify-email');
+            navigate('/auth/verify-email');
         } catch {
             // Error handled in slice
         } finally {

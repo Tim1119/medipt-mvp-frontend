@@ -43,7 +43,7 @@ const OrganizationVerifyEmailPage = () => {
             <p className="text-black font-inter text-sm font-light leading-4 md:text-center lg:text-center xl:text-left">
               Wrong email address?{' '}
               <Link
-                to="/auth/organization/signup"
+                to="/auth/signup"
                 className="text-[#009899] font-semibold hover:underline"
               >
                 Change it
