@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
@@ -8,33 +8,48 @@ import { verifyAccountService } from '@/features/auth/authService';
 import EmailVerificationSkeleton from '@/components/loading/skeletons/EmailVerificationSkeleton';
 
 const EmailVerificationPage = () => {
-  const { token } = useParams<{ token: string }>();
+  const { uidb64, token } = useParams<{ uidb64: string; token: string }>();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [verificationStatus, setVerificationStatus] = useState<'success' | 'error' | null>(null);
+  const hasVerified = useRef(false); // ✅ Deduplication flag
 
   useEffect(() => {
     let mounted = true;
 
     const verifyEmail = async () => {
-      if (!token) {
+      // ✅ Prevent duplicate calls
+      if (hasVerified.current) {
+        return;
+      }
+
+      if (!token || !uidb64) {
         toast.error('Invalid verification link');
         navigate('/auth/organization/signup');
         return;
       }
 
+      hasVerified.current = true; // ✅ Mark as verified
+
       try {
-        const response = await verifyAccountService(token);
+        const response = await verifyAccountService(uidb64, token);
         if (!mounted) return;
+
+        console.log('---->', response);
 
         const data = response.data;
 
-        // ✅ Handle success case
+        // Handle success case
         if (data.success && data.data?.success) {
           setVerificationStatus('success');
           toast.success(data.data?.message || 'Email verified successfully!');
+
+          // Redirect after short delay
+          setTimeout(() => {
+            if (mounted) navigate('/auth/login');
+          }, 2000);
         }
-        // ⚠️ Handle already active or validation error
+        // Handle already active or validation error
         else if (
           data.errors &&
           Array.isArray(data.errors) &&
@@ -42,19 +57,18 @@ const EmailVerificationPage = () => {
         ) {
           setVerificationStatus('success');
           toast.success('Your account is already active. You can log in now.');
+
+          // Redirect after short delay
+          setTimeout(() => {
+            if (mounted) navigate('/auth/login');
+          }, 2000);
         }
-        // ❌ Handle other failures
+        // Handle other failures
         else {
           setVerificationStatus('error');
           toast.error(data.errors?.[0] || 'Verification failed. Please try again.');
         }
-
-        // Redirect after short delay
-        setTimeout(() => {
-          if (mounted && verificationStatus === 'success') navigate('/auth/login');
-        }, 2000);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (error) {
+      } catch  {
         if (!mounted) return;
         setVerificationStatus('error');
         toast.error('Verification failed. Please try again or request a new link.');
@@ -68,7 +82,7 @@ const EmailVerificationPage = () => {
     return () => {
       mounted = false;
     };
-  }, [token, navigate, verificationStatus]);
+  }, [token, uidb64, navigate]);
 
   if (loading) {
     return <EmailVerificationSkeleton />;
@@ -123,7 +137,7 @@ const EmailVerificationPage = () => {
             transition={{ delay: 0.6, duration: 0.5 }}
             className="mt-6"
           >
-            <Button className="w-full border border-[#084F61] p-0 flex items-center justify-center rounded-sm cursor-pointer hover:bg-[#084F61] hover:text-white transition-colors">
+            <Button className="w-full border border-[#084F61] bg-[#1786A2]  cursor-pointer p-0 flex items-center justify-center rounded-sm  hover:bg-[#084F61] hover:text-white transition-colors">
               <Link
                 to={
                   verificationStatus === 'success'

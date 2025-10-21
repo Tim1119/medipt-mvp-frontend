@@ -113,14 +113,15 @@ export const organizationSignup = createAsyncThunk<
  */
 export const verifyAccount = createAsyncThunk<
   string,
-  string,
+   { uidb64: string; token: string },
   { rejectValue: string }
->("auth/verify-account", async (token, thunkAPI) => {
+>("auth/verify-account", async ({ uidb64, token }, thunkAPI) => {
   try {
-    const response = await authService.verifyAccountService(token);
+    const response = await authService.verifyAccountService(uidb64, token);
+    console.log("--->",response)
     return response.data.message || "Account verified successfully";
   } catch (error) {
-    handleApiError(error);
+    handleApiError(error);console.log("--->",error)
     return thunkAPI.rejectWithValue("Account verification failed");
   }
 });

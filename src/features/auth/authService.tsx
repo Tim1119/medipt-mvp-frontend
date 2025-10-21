@@ -25,8 +25,8 @@ export const organizationSignupService = async (organizationData: OrganizationSi
 /**
  * Verify Account Service
  */
-export const verifyAccountService = async (token: string) => {
-  const response = await publicAxiosInstance.get(`${VERIFY_ACCOUNT_ENDPOINT}${token}/`);
+export const verifyAccountService = async (uidb64: string, token: string) => {
+  const response = await publicAxiosInstance.get(`${VERIFY_ACCOUNT_ENDPOINT}${uidb64}/${token}/`);
   return response;
 };
 
