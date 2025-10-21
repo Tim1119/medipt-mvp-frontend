@@ -1,13 +1,12 @@
-import {type  SetNewPasswordData, SetNewPasswordSchema } from '@/schemas/auth/auth-schema';
+import { type SetNewPasswordData, SetNewPasswordSchema } from '@/schemas/auth/auth-schema';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { useSelector } from "react-redux";
-import { selectAuthLoading } from "@/features/auth/authSlice";
+import { selectAuthLoading } from '@/features/auth/authSlice';
 import { Button } from '@/components/ui/button';
 import FormPasswordInput from '@/components/forms/FormPasswordInput';
 import { setNewPassword } from '@/features/auth/authSlice';
@@ -23,13 +22,9 @@ const ResetPasswordPage = () => {
   const [initialLoadCompleted, setInitialLoadCompleted] = useState(false);
   const loading = useSelector(selectAuthLoading);
 
-  
-
-
   useEffect(() => {
     if (!loading && !initialLoadCompleted) {
       setInitialLoadCompleted(true);
-
       if (!uidb64 || !token) {
         toast.error('Reset token is required.');
         navigate('/auth/forgot-password');
@@ -49,37 +44,36 @@ const ResetPasswordPage = () => {
   } = formMethods;
 
   const onSubmit: SubmitHandler<SetNewPasswordData> = async (data) => {
-  setIsSubmitting(true);
-  try {
-    if (data.new_password !== data.confirm_password) {
-      toast.error('Passwords do not match');
-      return;
+    setIsSubmitting(true);
+    try {
+      if (data.new_password !== data.confirm_password) {
+        toast.error('Passwords do not match');
+        return;
+      }
+
+      if (!uidb64 || !token) {
+        toast.error('Invalid reset link.');
+        return;
+      }
+
+      const payload = {
+        uidb64,
+        token,
+        new_password: data.new_password,
+        confirm_password: data.confirm_password,
+      };
+
+      await dispatch(setNewPassword(payload)).unwrap();
+
+      toast.success('Password reset successful. Kindly login.');
+      reset();
+      navigate('/auth/login');
+    } catch {
+      // Error handled by slice
+    } finally {
+      setIsSubmitting(false);
     }
-
-    if (!uidb64 || !token) {
-      toast.error('Invalid reset link.');
-      return;
-    }
-
-    const payload = {
-      uidb64,
-      token,
-      new_password: data.new_password,
-      confirm_password: data.confirm_password,
-    };
-
-    await dispatch(setNewPassword(payload)).unwrap();
-
-    toast.success('Password reset successful. Kindly login.');
-    reset();
-    navigate('/auth/login');
-  } catch {
-    // Error handled by slice
-  } finally {
-    setIsSubmitting(false);
-  }
-};
-
+  };
 
   if (!initialLoadCompleted && loading) {
     return <ResetPasswordSkeleton />;
@@ -141,8 +135,8 @@ const ResetPasswordPage = () => {
 
               <Button
                 type="submit"
-                className={`w-full border border-[#084F61] transition-all duration-300 bg-[#1786A2] hover:bg-[#1786A2] cursor-pointer ${
-                  isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
+                className={`w-full border border-[#084F61] transition-all duration-300 bg-[#1786A2] hover:bg-[#1786A2] ${
+                  isSubmitting ? 'opacity-75 cursor-not-allowed' : 'cursor-pointer'
                 }`}
                 disabled={isSubmitting}
               >
@@ -161,7 +155,7 @@ const ResetPasswordPage = () => {
                         r="10"
                         stroke="currentColor"
                         strokeWidth="4"
-                      ></circle>
+                      />
                       <path
                         className="opacity-75"
                         fill="currentColor"
@@ -169,7 +163,7 @@ const ResetPasswordPage = () => {
                           0 5.373 0 12h4zm2 5.291A7.962 7.962 0 
                           014 12H0c0 3.042 1.135 5.824 3 
                           7.938l3-2.647z"
-                      ></path>
+                      />
                     </svg>
                     Resetting Password...
                   </span>

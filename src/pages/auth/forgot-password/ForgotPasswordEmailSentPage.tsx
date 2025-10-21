@@ -1,25 +1,29 @@
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { selectAuthLoading } from "@/features/auth/authSlice";
 import mediptLogo from '@/assets/medipt.svg';
-import type { RootState } from '@/app/store';
 
 const ForgotPasswordEmailSentPage = () => {
   const navigate = useNavigate();
-  const resetEmail = useSelector((state: RootState) => state.auth.resetEmail);
-   const loading = useSelector(selectAuthLoading);
-
+  const location = useLocation();
+  const loading = useSelector(selectAuthLoading);
+  const resetEmail = location.state?.email;
 
   useEffect(() => {
     if (!loading && !resetEmail) {
-      toast.error('Email is missing. Please go back and enter it again.');
-      navigate('/auth/forgot-password', { replace: true });
+      toast.error('Session expired. Please request a new password reset link.');
+      navigate('/auth/login', { replace: true });
     }
   }, [resetEmail, navigate, loading]);
+
+  // Don't render content if no email
+  if (!resetEmail) {
+    return null;
+  }
 
   return (
     <motion.div
@@ -78,7 +82,7 @@ const ForgotPasswordEmailSentPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            <Button className="w-full border border-brand-primary-2 p-0 flex items-center justify-center">
+            <Button className="w-full border border-brand-primary-2 p-0 flex items-center justify-center border-[#084F61] bg-[#1786A2] hover:bg-[#1786A2]">
               <Link
                 to="/auth/login"
                 className="w-full h-full flex items-center justify-center"
@@ -95,7 +99,7 @@ const ForgotPasswordEmailSentPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.5 }}
           >
-            Didn’t get the link?{' '}
+            Didn't get the link?{' '}
             <Link
               to="/auth/forgot-password"
               className="text-[#1786A2] font-medium text-brand-primary-3"

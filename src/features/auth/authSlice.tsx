@@ -52,7 +52,6 @@ interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   loading: boolean;
-  resetEmail: string | null;
   error: string | null;
   isAuthenticated: boolean;
   tokenExpiry: number | null;
@@ -81,7 +80,6 @@ const getInitialAuthState = (): AuthState => {
     signedupUser: null,
     accessToken: accessToken || null,
     refreshToken: refreshToken || null,
-    resetEmail: null,
     loading: false,
     error: null,
     isAuthenticated: !!accessToken && !!user,
@@ -167,6 +165,7 @@ export const forgotPassword = createAsyncThunk<
     const response = await authService.forgotPasswordService(forgotPasswordData);
     return response.data.data.email || forgotPasswordData.email;
   } catch (error) {
+    console.log("----->",error)
     handleApiError(error);
     return thunkAPI.rejectWithValue("Password reset request failed");
   }
@@ -302,7 +301,6 @@ export const restoreAuth = createAsyncThunk<
         signedupUser: null,
         accessToken,
         refreshToken: refreshToken || null,
-        resetEmail: null,
         loading: false,
         error: null,
         isAuthenticated: true,
@@ -452,6 +450,5 @@ export const selectAuthError = (state: RootState) => state.auth.error;
 export const selectAccessToken = (state: RootState) => state.auth.accessToken;
 export const selectRefreshToken = (state: RootState) => state.auth.refreshToken;
 export const selectSignedupUser = (state: RootState) => state.auth.signedupUser;
-export const selectResetEmail = (state: RootState) => state.auth.resetEmail;
 
 export default authSlice.reducer;

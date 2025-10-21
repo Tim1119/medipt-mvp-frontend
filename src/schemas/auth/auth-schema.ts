@@ -40,7 +40,7 @@ export const ForgotPasswordSchema = z.object({
  * Set New Password Schema
  */
 export const SetNewPasswordSchema = z.object({
-  token: z.string().min(1, 'Token is required'),
+  // token: z.string().min(1, 'Token is required'),
   new_password: z.string()
     .min(8, 'Password must be at least 8 characters')
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')

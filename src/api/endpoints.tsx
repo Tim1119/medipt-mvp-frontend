@@ -1,12 +1,3 @@
-// src/api/endpoints.ts
-
-/**
- * API Endpoints Configuration
- * Centralized location for all API endpoint definitions
- */
-
-// Base API URL
-// export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1/';
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api/v1';
 
 // Authentication Endpoints
@@ -14,8 +5,9 @@ export const ORGANIZATION_SIGNUP_ENDPOINT = '/auth/accounts/organization-signup/
 export const LOGIN_ENDPOINT = '/auth/accounts/login/';
 export const LOGOUT_ENDPOINT = '/auth/logout';
 export const VERIFY_ACCOUNT_ENDPOINT = '/auth/accounts/verify-account/';
-export const FORGOT_PASSWORD_ENDPOINT = '/auth/forgot-password';
-export const SET_NEW_PASSWORD_ENDPOINT = '/auth/reset-password';
+export const FORGOT_PASSWORD_ENDPOINT = '/auth/accounts/password-reset/';
+export const SET_NEW_PASSWORD_ENDPOINT = '/auth/accounts/password-reset-confirm/';
+
 export const REFRESH_TOKEN_ENDPOINT = '/auth/refresh-token';
 export const CHANGE_PASSWORD_ENDPOINT = '/auth/change-password'; // ✅ ADDED THIS
 export const GET_CURRENT_USER_ENDPOINT = '/auth/me';

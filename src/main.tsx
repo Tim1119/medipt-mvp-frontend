@@ -12,7 +12,7 @@ import PageLoader from '@/components/loading/PageLoader';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
-  // <StrictMode>
+  <StrictMode>
     <BrowserRouter>
       <Provider store={store}>
         {/* PersistGate delays rendering until persisted state is retrieved */}
@@ -45,5 +45,5 @@ createRoot(document.getElementById('root')!).render(
         </PersistGate>
       </Provider>
     </BrowserRouter>
-  
+  </StrictMode>
 );

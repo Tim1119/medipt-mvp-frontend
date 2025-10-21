@@ -46,7 +46,7 @@ const ForgotPasswordPage = () => {
       await dispatch(forgotPassword(data)).unwrap();
       toast.success('Email sent. Please check your mail to proceed');
       reset();
-      navigate('/auth/password-link-sent');
+      navigate('/auth/password-link-sent',{ state: { email: data.email },replace: true });
     } catch {
       // handled in slice
     } finally {
@@ -132,7 +132,7 @@ const ForgotPasswordPage = () => {
                 >
                   <Button
                     type="submit"
-                    className={`w-full border border-[#084F61] transition-all duration-300 ${
+                    className={`w-full border transition-all duration-300 border-[#084F61] bg-[#1786A2] hover:bg-[#1786A2] ${
                       isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
                     }`}
                     disabled={isSubmitting}
