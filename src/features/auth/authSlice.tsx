@@ -116,10 +116,10 @@ export const verifyAccount = createAsyncThunk<
 >("auth/verify-account", async ({ uidb64, token }, thunkAPI) => {
   try {
     const response = await authService.verifyAccountService(uidb64, token);
-    console.log("--->",response)
-    return response.data.message || "Account verified successfully";
+    
+    return response.data|| "Account verified successfully";
   } catch (error) {
-    handleApiError(error);console.log("--->",error)
+    handleApiError(error);
     return thunkAPI.rejectWithValue("Account verification failed");
   }
 });

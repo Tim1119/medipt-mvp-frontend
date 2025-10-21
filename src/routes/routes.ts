@@ -40,7 +40,7 @@ export const authRoutes: RouteConfig[] = [
     title: "Verify Email",
   },
   {
-    path: "/auth/verify-account/:uidb64/:token",
+    path: "verify-account/:uidb64/:token",
     component: lazy(() => import("@/pages/auth/general/EmailVerificationPage")),
     title: "Verify Email",
   },

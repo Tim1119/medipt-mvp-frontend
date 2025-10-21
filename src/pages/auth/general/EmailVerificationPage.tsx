@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
@@ -12,81 +12,55 @@ const EmailVerificationPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [verificationStatus, setVerificationStatus] = useState<'success' | 'error' | null>(null);
-  const hasVerified = useRef(false); // ✅ Deduplication flag
 
   useEffect(() => {
     let mounted = true;
 
     const verifyEmail = async () => {
-      // ✅ Prevent duplicate calls
-      if (hasVerified.current) {
-        return;
-      }
-
       if (!token || !uidb64) {
         toast.error('Invalid verification link');
         navigate('/auth/organization/signup');
         return;
       }
 
-      hasVerified.current = true; // ✅ Mark as verified
-
       try {
         const response = await verifyAccountService(uidb64, token);
         if (!mounted) return;
 
-        console.log('---->', response);
-
         const data = response.data;
+        setVerificationStatus('success');
+        toast.success(data.data?.message || 'Email verified successfully!');
 
-        // Handle success case
-        if (data.success && data.data?.success) {
-          setVerificationStatus('success');
-          toast.success(data.data?.message || 'Email verified successfully!');
-
-          // Redirect after short delay
-          setTimeout(() => {
-            if (mounted) navigate('/auth/login');
-          }, 2000);
-        }
-        // Handle already active or validation error
-        else if (
-          data.errors &&
-          Array.isArray(data.errors) &&
-          data.errors[0]?.toLowerCase().includes('already active')
-        ) {
-          setVerificationStatus('success');
-          toast.success('Your account is already active. You can log in now.');
-
-          // Redirect after short delay
-          setTimeout(() => {
-            if (mounted) navigate('/auth/login');
-          }, 2000);
-        }
-        // Handle other failures
-        else {
-          setVerificationStatus('error');
-          toast.error(data.errors?.[0] || 'Verification failed. Please try again.');
-        }
-      } catch  {
+        // setTimeout(() => {
+        //   if (mounted) navigate('/auth/login');
+        // }, 2000);
+      } catch (error: any) {
         if (!mounted) return;
-        setVerificationStatus('error');
-        toast.error('Verification failed. Please try again or request a new link.');
+
+        const errorMsg =
+          error.response?.data?.errors?.[0] ||
+          error.message ||
+          'Verification failed. Please try again or request a new link.';
+          toast.error(errorMsg)
+          setTimeout(() => {
+            if (mounted) navigate('/auth/login');
+          }, 2000);
+        // } else {
+          setVerificationStatus('error');
+       
+        // }
       } finally {
         if (mounted) setLoading(false);
       }
     };
 
     verifyEmail();
-
     return () => {
       mounted = false;
     };
   }, [token, uidb64, navigate]);
 
-  if (loading) {
-    return <EmailVerificationSkeleton />;
-  }
+  if (loading) return <EmailVerificationSkeleton />;
 
   return (
     <motion.div
@@ -97,14 +71,12 @@ const EmailVerificationPage = () => {
     >
       <div className="w-11/12 xl:w-4/5 md:w-3/4 lg:w-2/3 animate-in fade-in slide-in-from-bottom-4 duration-700">
         <div className="w-full max-w-md mx-auto xl:mx-0">
-          {/* Logo */}
           <img
             src={mediptLogo}
             className="mb-[50px] mx-auto xl:mx-0 2xl:h-[55px] animate-in zoom-in duration-500"
             alt="medipt-logo"
           />
 
-          {/* Heading */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -118,7 +90,6 @@ const EmailVerificationPage = () => {
             </h2>
           </motion.div>
 
-          {/* Message */}
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -130,14 +101,13 @@ const EmailVerificationPage = () => {
               : "The verification link you used is either invalid or has expired. If you've already signed up but haven't activated your account, you can request a new verification link. Otherwise, please try signing up again."}
           </motion.p>
 
-          {/* Button */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
             className="mt-6"
           >
-            <Button className="w-full border border-[#084F61] bg-[#1786A2]  cursor-pointer p-0 flex items-center justify-center rounded-sm  hover:bg-[#084F61] hover:text-white transition-colors">
+            <Button className="w-full border-[#084F61] bg-[#1786A2]  border p-0 flex items-center justify-center rounded-sm cursor-pointer hover:bg-[#084F61] hover:text-white transition-colors">
               <Link
                 to={
                   verificationStatus === 'success'
