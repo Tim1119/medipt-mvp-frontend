@@ -13,13 +13,31 @@ export const CHANGE_PASSWORD_ENDPOINT = '/auth/change-password'; // ✅ ADDED TH
 export const GET_CURRENT_USER_ENDPOINT = '/auth/me';
 
 // Organization Endpoints
+export const ORGANIZATION_STATISTICS_ENDPOINT = '/organizations/statistics';
+
+
+// Caregiver Endpoints
+export const INVITE_CAREGIVER_ENDPOINT = '/invites/invite-caregiver/';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const ORGANIZATION_ENDPOINT = '/organizations';
 export const ORGANIZATION_PROFILE_ENDPOINT = '/organizations/profile';
 export const UPDATE_ORGANIZATION_ENDPOINT = '/organizations/update';
 
 // Caregiver Endpoints
 export const CAREGIVERS_ENDPOINT = '/caregivers';
-export const INVITE_CAREGIVER_ENDPOINT = '/caregivers/invite';
 export const UPDATE_CAREGIVER_ENDPOINT = '/caregivers/update';
 export const DELETE_CAREGIVER_ENDPOINT = '/caregivers/delete';
 

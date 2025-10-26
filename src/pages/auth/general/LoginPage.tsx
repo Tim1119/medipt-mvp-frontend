@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import mediptLogo from '@/assets/medipt.svg';
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form';
@@ -17,6 +17,7 @@ import { selectAuthLoading } from "@/features/auth/authSlice";
 
 const LoginPage = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [initialLoadCompleted, setInitialLoadCompleted] = useState(false);
     const loading = useSelector(selectAuthLoading);
@@ -53,6 +54,7 @@ const LoginPage = () => {
             const result = await dispatch(login(data)).unwrap();
             console.log("result",result)
             toast.success('Login successful!');
+            navigate('/organization/dashboard');
 
         } catch {
             // Error is handled by the auth slice

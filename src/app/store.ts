@@ -2,9 +2,13 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from '@/features/auth/authSlice';
+import organizationReducer from '@/features/organization/organizationSlice';
+import caregiverReducer from '@/features/caregiver/caregiverSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  organization: organizationReducer,
+  caregiver: caregiverReducer,
 });
 
 const persistConfig = {

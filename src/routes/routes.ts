@@ -4,7 +4,7 @@ import { lazy, type ComponentType } from 'react';
 /**
  * User role type - matching your auth system
  */
-export type UserRole = 'Admin' | 'Manager' | 'User' | 'Caregiver' | 'Viewer';
+export type UserRole = 'Organization' |'Admin' | 'Manager' | 'User' | 'Caregiver' | 'Viewer';
 
 /**
  * Route configuration interface
@@ -80,15 +80,15 @@ export const authRoutes: RouteConfig[] = [
  * Dashboard routes (protected - require authentication and roles)
  */
 export const dashboardRoutes: RouteConfig[] = [
-//   {
-//     path: "dashboard",
-//     component: lazy(() => import("@/pages/dashboard/DashboardPage")),
-//     title: "Dashboard",
-//     allowedRoles: ['Admin', 'Manager', 'User', 'Caregiver', 'Viewer'],
-//     label: "Dashboard",
-//     icon: "LayoutDashboard",
-//     showInSidebar: true,
-//   },
+  {
+    path: "dashboard",
+    component: lazy(() => import("@/pages/organization/OrganizationDashboard")),
+    title: "Dashboard",
+    allowedRoles: ['Organization', 'Manager', 'User', 'Caregiver', 'Viewer'],
+    label: "Dashboard",
+    icon: "LayoutDashboard",
+    showInSidebar: true,
+  },
 //   {
 //     path: "profile",
 //     component: lazy(() => import("@/pages/dashboard/ProfilePage")),
