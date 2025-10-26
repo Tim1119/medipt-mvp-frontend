@@ -1,4 +1,3 @@
-// InviteCaregiverModal.tsx
 import type { AppDispatch} from "@/app/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -58,8 +57,6 @@ const InviteCaregiverModal = () => {
       reset();
       setIsOpen(false); // Close modal
       
-      // Optional: Refresh data if needed
-      // dispatch(fetchCaregiverInviteHistory({ page: 1, pageSize: 10, searchTerm: "" }));
       
     } catch {
       // Error already handled by handleApiError in thunk

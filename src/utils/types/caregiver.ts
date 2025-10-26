@@ -1,5 +1,5 @@
 export interface Caregiver {
-    pkid:string;
+    pkid?:string;
     first_name: string;
     last_name: string;
     caregiver_type: string;

@@ -1,7 +1,7 @@
 import { privateAxiosInstance } from '@/api/base_api';
 import {
   // ALL_CAREGIVERS_ENDPOINT,
-  // ALL_CAREGIVERS_IN_ORGANIZATION_ENDPOINT,
+  ALL_CAREGIVERS_IN_ORGANIZATION_ENDPOINT,
   // CAREGIVER_ACCEPT_ORGANIZATION_INVITE_ENDPOINT,
   INVITE_CAREGIVER_ENDPOINT,
   // LATEST_CAREGIVERS_ENDPOINT,
@@ -83,15 +83,15 @@ export const sendInviteToCaregiverService = async (
 //   return response.data.data;
 // };
 
-// /**
-//  * Fetch all caregivers within the current organization
-//  */
-// export const fetchAllCaregiversInOrganizationService = async () => {
-//   const response = await privateAxiosInstance.get(
-//     ALL_CAREGIVERS_IN_ORGANIZATION_ENDPOINT
-//   );
-//   return response.data.data;
-// };
+/**
+ * Fetch all caregivers within the current organization
+ */
+export const fetchAllCaregiversInOrganizationService = async () => {
+  const response = await privateAxiosInstance.get(
+    ALL_CAREGIVERS_IN_ORGANIZATION_ENDPOINT
+  );
+  return response.data.data;
+};
 
 const caregiverService = {
   // fetchLatestCaregiversService,
@@ -99,7 +99,7 @@ const caregiverService = {
   // fetchCaregiverInviteHistoryService,
   sendInviteToCaregiverService,
   // caregiverAcceptOrganizationInvitationService,
-  // fetchAllCaregiversInOrganizationService,
+  fetchAllCaregiversInOrganizationService,
 };
 
 export default caregiverService;

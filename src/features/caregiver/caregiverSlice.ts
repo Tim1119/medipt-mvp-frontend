@@ -11,25 +11,38 @@ import type {
 } from '@/schemas/caregiver';
 
 interface CaregiverState {
-  latestCaregivers: Caregiver[];
-  organizationCaregivers: CaregiverBasicInfo[];
-  caregivers: Caregiver[];
+  // latestCaregivers: Caregiver[];
+  // organizationCaregivers: CaregiverBasicInfo[];
+  // caregivers: Caregiver[];
+  // loading: boolean;
+  // error: string | null;
+  // hasFetchedLatestCaregivers: boolean;
+  // totalCount: number;
+
+  allCaregivers: Caregiver[];
+  pagination: {
+    count: number;
+    next: string | null;
+    previous: string | null;
+  };
   loading: boolean;
+  hasFetched: boolean;
   error: string | null;
-  hasFetchedLatestCaregivers: boolean;
-  totalCount: number;
-  lastAction: string | null;
 }
 
 const initialState: CaregiverState = {
-  latestCaregivers: [],
-  organizationCaregivers: [],
-  caregivers: [],
+  // latestCaregivers: [],
+  // organizationCaregivers: [],
+  // caregivers: [],
+  // loading: false,
+  // error: null,
+  // hasFetchedLatestCaregivers: false,
+  // totalCount: 0,
+  allCaregivers: [],
+  pagination: { count: 0, next: null, previous: null },
   loading: false,
+  hasFetched: false,
   error: null,
-  hasFetchedLatestCaregivers: false,
-  totalCount: 0,
-  lastAction: null,
 };
 
 // interface AcceptInvitationResponse {
@@ -66,19 +79,29 @@ const initialState: CaregiverState = {
 //   }
 // });
 
-// export const fetchAllCaregiversInOrganization = createAsyncThunk<
-//   CaregiverBasicInfo[],
-//   void,
-//   { rejectValue: string }
-// >('caregiver/fetchAllCaregiversInOrganization', async (_, thunkAPI) => {
-//   try {
-//     await new Promise((r) => setTimeout(r, 500)); // Small artificial delay
-//     return await caregiverService.fetchAllCaregiversInOrganizationService();
-//   } catch (error) {
-//     handleApiError(error);
-//     return thunkAPI.rejectWithValue('Error fetching caregivers');
-//   }
-// });
+
+export const fetchAllCaregiversInOrganization = createAsyncThunk<
+  { results: Caregiver[]; count: number; next: string | null; previous: string | null },
+  void,
+  { rejectValue: string }
+>('caregiver/fetchAllCaregiversInOrganization', async (_, thunkAPI) => {
+  try {
+    await new Promise((r) => setTimeout(r, 500)); // small delay
+    const data = await caregiverService.fetchAllCaregiversInOrganizationService();
+    console.log('_____> invite data', data);
+
+    return {
+      results: data.results,
+      count: data.count,
+      next: data.next,
+      previous: data.previous,
+    };
+  } catch (error) {
+    handleApiError(error);
+    return thunkAPI.rejectWithValue('Error fetching caregivers');
+  }
+});
+
 
 // export const fetchCaregiverInviteHistory = createAsyncThunk<
 //   { data: Caregiver[]; totalCount: number },
@@ -105,7 +128,6 @@ export const sendInvitationToCaregiver = createAsyncThunk<
   try {
     return await caregiverService.sendInviteToCaregiverService(invitedCaregiver);
   } catch (error) {
-    console.log('_____> handle api error',error)
     handleApiError(error);
     return thunkAPI.rejectWithValue('Failed to invite caregiver');
   }
@@ -136,9 +158,6 @@ const caregiverSlice = createSlice({
   name: 'caregiver',
   initialState,
   reducers: {
-    clearLastAction: (state) => {
-      state.lastAction = null;
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -186,16 +205,13 @@ const caregiverSlice = createSlice({
       // --- Invitation sending ---
       .addCase(sendInvitationToCaregiver.pending, (state) => {
         state.loading = true;
-        state.lastAction = 'sendInvitation';
       })
       .addCase(sendInvitationToCaregiver.fulfilled, (state) => {
         state.loading = false;
-        state.lastAction = 'sendInvitation';
       })
       .addCase(sendInvitationToCaregiver.rejected, (state, action) => {
         state.error = action.payload || 'Failed to invite caregiver';
         state.loading = false;
-        state.lastAction = 'sendInvitation';
       })
 
       // // --- Accept invitation ---
@@ -208,16 +224,33 @@ const caregiverSlice = createSlice({
       // })
 
       // // --- Organization caregivers ---
+      
+
       // .addCase(fetchAllCaregiversInOrganization.fulfilled, (state, action) => {
-      //   state.organizationCaregivers = action.payload;
+      //   state.organizationCaregivers = action.payload.caregivers;
       //   state.loading = false;
       // })
-      // .addCase(fetchAllCaregiversInOrganization.rejected, (state, action) => {
-      //   state.error = action.payload || 'Failed to fetch organization caregivers';
-      //   state.loading = false;
-      // });
+
+      builder
+      .addCase(fetchAllCaregiversInOrganization.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchAllCaregiversInOrganization.fulfilled, (state, action) => {
+        state.allCaregivers = action.payload.results;
+        state.pagination = {
+          count: action.payload.count,
+          next: action.payload.next,
+          previous: action.payload.previous,
+        };
+        state.loading = false;
+        state.hasFetched = true;
+      })
+      .addCase(fetchAllCaregiversInOrganization.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Error fetching caregivers';
+      });
   },
 });
 
-export const { clearLastAction } = caregiverSlice.actions;
+// export const { clearLastAction } = caregiverSlice.actions;
 export default caregiverSlice.reducer;

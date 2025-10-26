@@ -20,10 +20,10 @@ const StatisticCard = ({ title, value,icon,header,bgIconContainer,bgContainer, c
       whileHover={{ scale: 1.03 }}
       transition={{ type: "spring", stiffness: 200, damping: 12 }}
       style={{ backgroundColor: bgContainer }}
-      className="bg-white p-4 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 h-[140px] grid"
+    //   className="bg-white p-4 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 h-[140px] grid"
     >
 
-    {/* <div  style={{ backgroundColor: bgContainer }} className="bg-white p-4 rounded-lg shadow-md h-[140px] grid "> */}
+    <div  style={{ backgroundColor: bgContainer }} className="bg-white p-4 rounded-lg shadow-md h-[140px] grid ">
         <div className={`flex items-center px-3 ${header ? "justify-between" : "justify-end"}`} >
             { header && <h3 className='font-inter font-bold text-base text-[#3c4a4a]' >{header}</h3>
             }
@@ -51,7 +51,7 @@ const StatisticCard = ({ title, value,icon,header,bgIconContainer,bgContainer, c
            </div>
         ):(
             
-        <div className='flex items-center gap-4 p-4 ' >
+        <div className='flex items-center gap-4 p-4' >
             <div style={{ backgroundColor: bgIconContainer }} className={`rounded-full w-[56px] h-[56px] p-3 grid place-items-center`} >
             
                 {/* <Image src={icon} className='h-[14px] w-[20px]' alt={title}  /> */}
@@ -64,7 +64,7 @@ const StatisticCard = ({ title, value,icon,header,bgIconContainer,bgContainer, c
         </div>
         )}
       
-    {/* </div> */}
+    </div>
     </motion.div>
   )
 }

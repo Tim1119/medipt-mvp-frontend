@@ -15,11 +15,12 @@ import { fetchOrganizationDashboardStatisticsData } from "@/features/organizatio
 import visitIcon from "@/assets/icons/visits.svg";
 import patientsIcon from "@/assets/icons/patients.svg";
 import genderIcon from "@/assets/icons/gender.svg";
+import NonPaginatedCaregiverInviteHistoryTable from "@/components/tables/unpaginated/NonPaginatedCaregiverInviteHistoryTable";
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
+// const fadeInUp = {
+//   hidden: { opacity: 0, y: 30 },
+//   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+// };
 
 const OrganizationDashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -96,11 +97,11 @@ const OrganizationDashboard = () => {
         )}
       </motion.div>
 
-      {/* Tables Section
+      {/* {/* Tables Section */}
       <motion.div  className="mt-12 space-y-8">
         <NonPaginatedCaregiverInviteHistoryTable />
-        <NonPaginatedPatientRegistrationHistory />
-      </motion.div> */}
+        {/* <NonPaginatedPatientRegistrationHistory /> */}
+      </motion.div> 
     </motion.div>
   );
 };

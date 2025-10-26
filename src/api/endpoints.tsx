@@ -18,6 +18,7 @@ export const ORGANIZATION_STATISTICS_ENDPOINT = '/organizations/statistics';
 
 // Caregiver Endpoints
 export const INVITE_CAREGIVER_ENDPOINT = '/invites/invite-caregiver/';
+export const ALL_CAREGIVERS_IN_ORGANIZATION_ENDPOINT = '/organizations/all-caregivers/';
 
 
 

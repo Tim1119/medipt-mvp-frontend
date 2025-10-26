@@ -42,7 +42,7 @@ const Sidebar = ({ isMobileSidebarOpen, setIsMobileSidebarOpen }: SidebarProps) 
     <>
       <aside
         className={cn(
-          "fixed top-0 left-0 h-full w-[280px] 2xl:w-[350px]",
+          "fixed top-0 left-0 h-full w-[280px] 2xl:w-[350px] overflow-y-scroll",
           "bg-white border-r shadow-lg z-20",
           "transition-transform duration-300 ease-in-out",
           "lg:translate-x-0 flex flex-col",
